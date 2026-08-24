@@ -1,0 +1,16 @@
+# Configuration locale : contient vos chemins et le nom de vos fichiers
+config.json
+
+# Fichiers de suivi et de mémoire : vos données, pas celles du dépôt
+*.xlsx
+*.xlsm
+MEMORY.md
+etat-projets.md
+consigne_*.md
+
+# Système et Python
+.DS_Store
+__pycache__/
+*.py[cod]
+.venv/
+venv/

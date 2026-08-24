@@ -1,0 +1,23 @@
+{
+  "dossier_travail": "/chemin/vers/le/dossier/de/suivi/",
+  "fichier_suivi": "suivi-projets.xlsx",
+  "onglets": {
+    "projets": "Projets",
+    "journal": "Suivi quotidien",
+    "dashboard": "Synthèse hebdo"
+  },
+  "memoire": {
+    "index": "MEMORY.md",
+    "etat": "etat-projets.md",
+    "consignes": "consigne_*.md"
+  },
+  "diffusion": ["conversation"],
+  "email_destinataire": null,
+  "langue": "français",
+  "style": "concis, pas de tiret cadratin, virgule à la place",
+  "base_journee_heures": 7.5,
+  "horizon_echeance_jours": 7,
+  "dossier_partage": true,
+  "reporting": {"destinataire": "direction", "frequence": "hebdomadaire"},
+  "fichiers_interdits": ["suivi-projets-ancien.xlsx", "Archives*.xlsx", "*.pptx", "Annexe*.docx"]
+}

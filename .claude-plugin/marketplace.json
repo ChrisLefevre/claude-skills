@@ -1,0 +1,20 @@
+{
+  "name": "claude-skills",
+  "description": "Collection de skills pour Claude. Chaque skill s'installe séparément. A collection of Claude skills, each installable on its own.",
+  "owner": {
+    "name": "Chris Lefevre",
+    "url": "https://github.com/ChrisLefevre"
+  },
+  "plugins": [
+    {
+      "name": "daily-project-brief",
+      "source": "./",
+      "skills": [
+        "./skills/daily-project-brief"
+      ],
+      "strict": false,
+      "version": "1.0.0",
+      "description": "Assistant de gestion de projet quotidien. Lit votre tableur de projets et vous rend chaque matin les priorités du jour, une question sur le temps passé la veille et une à trois questions d'avancement, puis reporte vos réponses dans le fichier. Répond dans la langue de l'utilisateur."
+    }
+  ]
+}
