@@ -15,6 +15,16 @@
       "strict": false,
       "version": "1.0.0",
       "description": "Assistant de gestion de projet quotidien. Lit votre tableur de projets et vous rend chaque matin les priorités du jour, une question sur le temps passé la veille et une à trois questions d'avancement, puis reporte vos réponses dans le fichier. Répond dans la langue de l'utilisateur."
+    },
+    {
+      "name": "supercopy",
+      "source": "./",
+      "skills": [
+        "./skills/supercopy"
+      ],
+      "strict": false,
+      "version": "1.0.0",
+      "description": "Nettoie un texte de tout ce qui trahit une écriture générée par IA : tiret cadratin remplacé selon sa fonction, retournements, triades, fausses confidences, autorité non sourcée, chutes artificielles, euphémismes corporate. Réécrit directement et explique ce qui a été retiré. Typographie française d'abord, anglais géré aussi."
     }
   ]
 }

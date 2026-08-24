@@ -9,6 +9,7 @@ Collection de skills pour Claude. Chacun s'installe séparément, prenez ce qui 
 | Skill | À quoi ça sert |
 |---|---|
 | [**daily-project-brief**](skills/daily-project-brief) | Un point projets chaque matin. Lit votre tableur de suivi, vous donne les priorités du jour avec leur justification, vous demande le temps passé la veille, puis reporte vos réponses dans le fichier. |
+| [**supercopy**](skills/supercopy) | Nettoie un texte de ce qui trahit une écriture IA : tiret cadratin traité selon sa fonction, retournements, triades, fausses confidences, euphémismes corporate. Réécrit et explique ce qui a été coupé. |
 
 ## Installation
 
@@ -24,6 +25,7 @@ Puis installez ce qui vous intéresse :
 
 ```
 /plugin install daily-project-brief@claude-skills
+/plugin install supercopy@claude-skills
 ```
 
 Si l'installation indique `Run /reload-plugins to activate`, lancez cette commande.
@@ -43,7 +45,12 @@ Vous ne recevez une nouvelle version que lorsque le numéro de version du skill 
 ├── .claude-plugin/
 │   └── marketplace.json         manifeste : c'est lui qui rend le dépôt installable
 ├── skills/
-│   └── daily-project-brief/     un dossier par skill
+│   ├── daily-project-brief/     un dossier par skill
+│   │   ├── SKILL.md
+│   │   ├── README.md
+│   │   ├── references/
+│   │   └── scripts/
+│   └── supercopy/
 │       ├── SKILL.md
 │       ├── README.md
 │       ├── references/
@@ -76,15 +83,33 @@ Le champ `skills` est ce qui isole chaque entrée : sans lui, toutes les entrée
 4. Validez avant de pousser :
 
 ```bash
+python3 verifier.py               # contraintes de l'installateur
 claude plugin validate .          # le manifeste
 claude plugin validate ./skills   # le contenu des skills
 ```
 
-Les deux doivent afficher `Validation passed`.
+`verifier.py` contrôle ce que `claude plugin validate` ne voit pas : la longueur des descriptions (1024 caractères maximum, sinon l'installation échoue), la correspondance entre le nom du dossier et le champ `name`, la cohérence entre le manifeste et les dossiers présents, et la syntaxe des scripts Python.
 
 ## Publier une mise à jour
 
 Incrémentez `version` dans l'entrée concernée du manifeste, sinon personne ne reçoit la modification. Validez, puis poussez.
+
+## Structure d'un fichier SKILL.md
+
+```yaml
+---
+name: mon-skill              # identique au nom du dossier, en kebab-case
+description: |               # 1024 caractères maximum, limite stricte
+  Ce que fait le skill, puis les situations qui doivent le déclencher.
+  C'est ce texte qui décide si Claude consulte le skill ou non.
+---
+
+# Titre
+
+Les instructions, en markdown.
+```
+
+La description est le seul mécanisme de déclenchement : elle doit décrire ce que fait le skill **et** énumérer les formulations qui doivent l'activer.
 
 ## Licence
 
