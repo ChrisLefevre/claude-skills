@@ -249,6 +249,23 @@ def peak_index(y):
     return int(np.argmax(e))
 
 
+def ui_layer(events, n):
+    """Tous les sons d'UI sur une boucle de n échantillons stéréo, pic sur l'événement."""
+    rng = np.random.default_rng(7)
+    ui = np.zeros((n, 2))
+    placed = []
+    for ev in events:
+        y = synth(ev["kind"], rng) * GAIN[ev["kind"]]
+        pk = peak_index(y)
+        at = int(round(ev["t"] * SR)) - pk                 # le pic tombe sur l'événement
+        pan = float(np.clip(ev.get("pan", 0), -1, 1)) * 0.35
+        lr = np.array([np.cos((pan + 1) * np.pi / 4), np.sin((pan + 1) * np.pi / 4)]) * np.sqrt(2)
+        idx = (at + np.arange(len(y))) % n                  # boucle circulaire
+        np.add.at(ui, idx, y[:, None] * lr[None, :])
+        placed.append({"kind": ev["kind"], "t": ev["t"], "peak_ms": round(pk / SR * 1000, 2)})
+    return ui, placed
+
+
 def mix(track, beats_path, sfx_path, out):
     info = json.loads(pathlib.Path(beats_path).read_text())
     sfx = json.loads(pathlib.Path(sfx_path).read_text())
@@ -265,18 +282,7 @@ def mix(track, beats_path, sfx_path, out):
     song[:fi] *= np.linspace(0, 1, fi)[:, None]
     song[-fo:] *= np.linspace(1, 0, fo)[:, None]
 
-    rng = np.random.default_rng(7)
-    ui = np.zeros((n, 2))
-    placed = []
-    for ev in sfx["events"]:
-        y = synth(ev["kind"], rng) * GAIN[ev["kind"]]
-        pk = peak_index(y)
-        at = int(round(ev["t"] * SR)) - pk                 # le pic tombe sur l'événement
-        pan = float(np.clip(ev.get("pan", 0), -1, 1)) * 0.35
-        lr = np.array([np.cos((pan + 1) * np.pi / 4), np.sin((pan + 1) * np.pi / 4)]) * np.sqrt(2)
-        idx = (at + np.arange(len(y))) % n                  # boucle circulaire
-        np.add.at(ui, idx, y[:, None] * lr[None, :])
-        placed.append({"kind": ev["kind"], "t": ev["t"], "peak_ms": round(pk / SR * 1000, 2)})
+    ui, placed = ui_layer(sfx["events"], n)
 
     # la musique d'abord, les sons d'UI au-dessus sans la noyer
     song_rms = np.sqrt((song ** 2).mean()) + 1e-9

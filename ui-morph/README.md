@@ -20,6 +20,13 @@ curseur comprises.
 Ouvrir `morph.html` dans un navigateur lit l'animation en temps réel.
 `morph.html?t=4.5` affiche l'image à 4,5 s, `?bpm=118` recale tout sur un autre tempo.
 
+Pour un aperçu avec lecture, défilement par temps, ralenti et sons d'UI :
+
+```
+node tools/render.cjs sfx --out build/sfx.json
+python3 tools/preview.py            # écrit build/preview.html
+```
+
 ## Rendu
 
 ```

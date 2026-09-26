@@ -175,7 +175,7 @@
 (() => {
 'use strict';
 const Q = new URLSearchParams(location.search);
-const BPM = +(Q.get('bpm') || 120);
+const BPM = +(Q.get('bpm') || window.MORPH_BPM || 120);
 const B = 60 / BPM;           // un temps, en secondes
 const NB = 28;                // 7 mesures de 4 temps
 const L = NB * B;             // durée de la boucle
@@ -635,7 +635,8 @@ window.SFX = SFX;
 window.seek = seek;
 
 // Aperçu dans un navigateur : lecture temps réel. Le rendu passe ?render=1 et appelle seek(t).
-if (!Q.has('render')) {
+// Une page hôte peut piloter l'horloge elle-même (window.MORPH_CONTROLLED).
+if (!Q.has('render') && !window.MORPH_CONTROLLED) {
   const fit = () => {
     const k = Math.min(innerWidth, innerHeight) / 1440;
     const st = $('stage').style;
