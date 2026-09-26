@@ -14,3 +14,6 @@ __pycache__/
 *.py[cod]
 .venv/
 venv/
+
+# Rendus de ui-morph
+ui-morph/build/
